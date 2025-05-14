@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>나의 꿈 일기장</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- 눈 내리는 애니메이션 -->
+  <div id="snow-container"></div>
+  <button id="theme-toggle-btn" class="theme-toggle-btn" title="다크모드 전환">🌙</button>
+
+  <!-- 로그인 폼 -->
+  <div class="container" id="login-container">
+    <header>
+      <h1><span class="dream-title">[Dream Diary]</span></h1>
+    </header>
+    <form id="login-form" autocomplete="off">
+      <div class="input-group">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" fill="#a9def9"/><ellipse cx="12" cy="17" rx="7" ry="5" fill="#e4c1f9"/></svg>
+        <input type="text" id="login-name" placeholder="당신의 이름을 입력하세요." required>
+      </div>
+      <div class="input-group">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M17 11V7a5 5 0 0 0-10 0v4" stroke="#a9def9" stroke-width="2"/><rect x="6" y="11" width="12" height="8" rx="2" fill="#e4c1f9"/><circle cx="12" cy="15" r="1.5" fill="#a9def9"/></svg>
+        <input type="password" id="login-pw" placeholder="토큰" required>
+      </div>
+      <button type="submit" id="login-btn">입장</button>
+      <div id="login-error" class="login-error"></div>
+    </form>
+  </div>
+
+  <!-- 꿈 일기 블로그 UI -->
+  <div class="container" id="blog-container" style="display:none;">
+    <header>
+      <h1><span class="dream-title">[Dream Diary]</span></h1>
+      <div class="profile-img-wrapper">
+        <svg class="profile-icon" width="96" height="96" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="8" r="4" fill="#e4c1f9"/>
+          <ellipse cx="12" cy="17" rx="7" ry="5" fill="#f9f7d9"/>
+          <circle cx="12" cy="8" r="3.2" fill="#fff" opacity="0.7"/>
+        </svg>
+      </div>
+      <nav>
+        <ul class="category-list">
+          <li data-category="전체">전체</li>
+          <li data-category="꿈">꿈</li>
+        </ul>
+      </nav>
+      <span id="user-name" class="user-name"></span>
+      <button id="logout-btn" class="logout-btn">로그아웃</button>
+    </header>
+    <main>
+      <section id="post-list-section">
+        <h2 class="visually-hidden">꿈 일기 목록</h2>
+        <ul id="post-list"></ul>
+      </section>
+      <section id="write-section">
+        <h2>꿈 기록하기</h2>
+        <form id="write-form" autocomplete="off">
+          <div class="input-group">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M2 21c0-2.5 3.5-7 10-7s10 4.5 10 7" stroke="#a9def9" stroke-width="2"/><path d="M12 17a5 5 0 1 1 0-10 5 5 0 0 1 0 10z" fill="#e4c1f9"/></svg>
+            <select id="category-select" required style="background:transparent; color:inherit; border:none; font-size:1.08rem; width:100%;">
+              <option value="" disabled selected>카테고리 선택</option>
+              <option value="꿈">꿈</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7z" fill="#e4c1f9"/><circle cx="12" cy="9" r="3" fill="#a9def9"/></svg>
+            <textarea id="content-input" rows="4" placeholder="꿈 내용을 입력하세요" required></textarea>
+          </div>
+          <button type="submit" id="submit-btn">작성하기</button>
+        </form>
+      </section>
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html> 

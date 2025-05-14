@@ -1,0 +1,526 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=KoPub+Batang:wght@400;700&family=KoPub+Dotum:wght@400;700&display=swap');
+
+body, input, textarea, select, button {
+  font-family: 'KoPub Dotum', 'KoPub Batang', 'Noto Sans KR', Arial, sans-serif;
+}
+
+/* 파스텔 무지개 그라데이션 배경 + 애니메이션 */
+body {
+  min-height: 100vh;
+  margin: 0;
+  background: linear-gradient(120deg, #ffd6e0, #f9f7d9, #d0f4de, #a9def9, #e4c1f9, #f694c1, #ffe5ec);
+  background-size: 400% 400%;
+  animation: rainbowBG 15s ease-in-out infinite;
+}
+
+@keyframes rainbowBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+body.dark-mode {
+  background: linear-gradient(to bottom, #0a1020 0%, #0a1020 60%, #1a2233 100%);
+  background-size: 100% 100%;
+  animation: none;
+  color: #f3f6fa;
+}
+
+/* 반투명 흰색 컨테이너 */
+.container {
+  max-width: 540px;
+  margin: 40px auto 32px auto;
+  border-radius: 24px;
+  padding: 32px 24px 24px 24px;
+  backdrop-filter: blur(4px);
+}
+body:not(.dark-mode) .container {
+  background: rgba(255,255,255,0.85) !important;
+  box-shadow: none !important;
+}
+body.dark-mode .container {
+  background: #23232b !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18) !important;
+}
+
+/* 블로그 제목 */
+header h1 {
+  text-align: center;
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+}
+
+/* 프로필 이미지 */
+.profile-img-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+.profile-img {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  object-fit: cover;
+}
+
+.profile-icon {
+  width: 96px;
+  height: 96px;
+  display: block;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  margin: 0 auto;
+}
+body.dark-mode .profile-icon {
+  background: #232946;
+}
+
+/* 카테고리 목록 */
+.category-list {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 18px 0;
+}
+.category-list li {
+  padding: 6px 18px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.6);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.4s, color 0.4s;
+  border: 1.5px solid #e4c1f9;
+}
+.category-list li:hover {
+  background: linear-gradient(90deg, #ffd6e0, #f9f7d9, #d0f4de, #a9def9, #e4c1f9, #f694c1, #ffe5ec);
+  color: #fff;
+}
+body.dark-mode .category-list li {
+  background: rgba(40,44,70,0.7);
+  border: 1.5px solid #a9def9;
+  color: #a9def9;
+}
+body.dark-mode .category-list li:hover,
+body.dark-mode button:hover {
+  background: linear-gradient(90deg, #232946, #a9def9, #e4c1f9, #232946);
+  color: #fff;
+}
+
+/* 글 목록 */
+#post-list-section {
+  margin-bottom: 32px;
+}
+#post-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.post-item {
+  background: rgba(255,255,255,0.7);
+  border-radius: 12px;
+  margin-bottom: 16px;
+  padding: 14px 16px 10px 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  position: relative;
+}
+.post-category {
+  display: inline-block;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(90deg, #a9def9, #e4c1f9, #f694c1, #ffe5ec);
+  border-radius: 8px;
+  padding: 2px 12px;
+  margin-bottom: 6px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+.post-content {
+  font-size: 1.08rem;
+  color: #333;
+  white-space: pre-line;
+}
+body.dark-mode .post-item {
+  background: rgba(40,44,70,0.7);
+}
+body.dark-mode .post-category {
+  background: linear-gradient(90deg, #232946, #a9def9, #e4c1f9);
+  color: #fff;
+}
+
+/* 글쓰기 섹션 */
+#write-section {
+  margin-top: 24px;
+}
+#write-section h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  text-align: left;
+}
+body.dark-mode #write-section h2 {
+  color: #a9def9;
+}
+#write-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+#category-select, #content-input {
+  border-radius: 8px;
+  border: 1.5px solid #e4c1f9;
+  padding: 8px 12px;
+  font-size: 1rem;
+  background: rgba(255,255,255,0.7);
+  resize: none;
+  outline: none;
+  transition: border 0.3s;
+}
+body.dark-mode #category-select, body.dark-mode #content-input {
+  background: rgba(40,44,70,0.7);
+  border: 1.5px solid #a9def9;
+  color: #f3f6fa;
+}
+#category-select:focus, #content-input:focus {
+  border: 1.5px solid #f694c1;
+}
+#submit-btn {
+  margin-top: 4px;
+  padding: 10px 0;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.08rem;
+  font-weight: 600;
+  background: linear-gradient(90deg, #e4c1f9, #f694c1, #ffe5ec);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.5s;
+}
+body.dark-mode #submit-btn {
+  background: linear-gradient(90deg, #232946, #a9def9, #e4c1f9);
+  color: #fff;
+}
+#submit-btn:hover {
+  background: linear-gradient(270deg, #ffd6e0, #f9f7d9, #d0f4de, #a9def9, #e4c1f9, #f694c1, #ffe5ec);
+  color: #fff;
+}
+body.dark-mode #submit-btn:hover {
+  background: linear-gradient(270deg, #232946, #a9def9, #e4c1f9);
+}
+
+/* 버튼 및 링크 hover 효과 (공통) */
+button, .category-list li {
+  transition: background 0.5s, color 0.5s;
+}
+button:hover, .category-list li:hover {
+  background: linear-gradient(90deg, #ffd6e0, #f9f7d9, #d0f4de, #a9def9, #e4c1f9, #f694c1, #ffe5ec);
+  color: #fff;
+}
+
+/* 눈 내리는 이모지 스타일 */
+#snow-container {
+  pointer-events: none;
+  position: fixed;
+  left: 0; top: 0; width: 100vw; height: 100vh;
+  z-index: 0;
+}
+.particle {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  opacity: 0.92;
+  box-shadow: 0 0 8px 2px #fff, 0 0 16px 4px #e4c1f9;
+  animation: particle-fall linear forwards;
+}
+@keyframes particle-fall {
+  to {
+    transform: translateY(100vh);
+    opacity: 0.18;
+  }
+}
+
+/* 접근성: 시각적 숨김 */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0);
+  border: 0;
+}
+
+/* 로그인 폼 스타일 */
+#login-container {
+  max-width: 340px;
+  margin: 80px auto 32px auto;
+  background: rgba(255,255,255,0.92);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.10);
+  padding: 32px 24px 24px 24px;
+  text-align: center;
+}
+body.dark-mode #login-container {
+  background: rgba(30,34,50,0.92);
+  color: #f3f6fa;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+}
+#login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 18px;
+}
+#login-form input {
+  border-radius: 8px;
+  border: 1.5px solid #e4c1f9;
+  padding: 10px 12px;
+  font-size: 1rem;
+  background: rgba(255,255,255,0.7);
+  outline: none;
+  transition: border 0.3s;
+}
+body.dark-mode #login-form input {
+  background: rgba(30,34,50,0.7);
+  color: #f3f6fa;
+}
+#login-form input:focus {
+  border: 1.5px solid #f694c1;
+}
+#login-btn {
+  padding: 10px 0;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.08rem;
+  font-weight: 600;
+  background: linear-gradient(90deg, #e4c1f9, #f694c1, #ffe5ec);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.5s;
+}
+body.dark-mode #login-btn {
+  background: linear-gradient(90deg, #232946, #a9def9, #e4c1f9);
+  color: #fff;
+}
+#login-btn:hover {
+  background: linear-gradient(270deg, #ffd6e0, #f9f7d9, #d0f4de, #a9def9, #e4c1f9, #f694c1, #ffe5ec);
+  color: #fff;
+}
+body.dark-mode #login-btn:hover {
+  background: linear-gradient(270deg, #232946, #a9def9, #e4c1f9);
+}
+.login-error {
+  color: #e57373;
+  font-size: 0.98rem;
+  margin-top: 4px;
+  min-height: 1.2em;
+}
+
+/* 로그아웃 버튼 */
+.logout-btn {
+  float: right;
+  margin-top: -36px;
+  margin-bottom: 8px;
+  padding: 6px 18px;
+  border: none;
+  border-radius: 18px;
+  font-size: 1rem;
+  font-weight: 500;
+  background: linear-gradient(90deg, #ffd6e0, #e4c1f9, #f694c1);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.5s;
+}
+body.dark-mode .logout-btn {
+  background: linear-gradient(90deg, #232946, #a9def9, #e4c1f9);
+  color: #fff;
+}
+.logout-btn:hover {
+  background: linear-gradient(270deg, #ffd6e0, #f9f7d9, #d0f4de, #a9def9, #e4c1f9, #f694c1, #ffe5ec);
+  color: #fff;
+}
+body.dark-mode .logout-btn:hover {
+  background: linear-gradient(270deg, #232946, #a9def9, #e4c1f9);
+}
+
+.dream-title {
+  font-family: 'Orbitron', 'Montserrat', 'Bebas Neue', Arial, sans-serif;
+  font-size: 2.4rem;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  background: linear-gradient(90deg, #fff, #e4c1f9, #a9def9, #f694c1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  text-shadow: 0 2px 12px rgba(228,193,249,0.18), 0 1px 0 #fff, 0 4px 16px #23232b;
+  display: inline-block;
+}
+body.dark-mode .dream-title {
+  background: linear-gradient(90deg, #fff, #a9def9, #e4c1f9, #232946);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  text-shadow: 0 2px 12px #232946, 0 1px 0 #fff;
+}
+
+body:not(.dark-mode) .dream-title {
+  text-shadow:
+    0 2px 12px #a259f7,
+    0 1px 0 #fff,
+    0 4px 16px #7c3aed;
+}
+
+.user-name {
+  display: block;
+  text-align: center;
+  font-size: 1.08rem;
+  color: #a9def9;
+  font-weight: 600;
+  margin-bottom: 8px;
+  margin-top: 2px;
+  letter-spacing: 1px;
+}
+
+/* 다크모드 토글 버튼 */
+.theme-toggle-btn {
+  position: fixed;
+  top: 18px;
+  right: 24px;
+  z-index: 2000;
+  background: rgba(255,255,255,0.7);
+  color: #232946;
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  font-size: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  cursor: pointer;
+  transition: background 0.4s, color 0.4s;
+}
+.theme-toggle-btn:hover {
+  background: linear-gradient(90deg, #ffd6e0, #a9def9, #e4c1f9);
+  color: #fff;
+}
+body.dark-mode .theme-toggle-btn {
+  background: rgba(35,41,70,0.85);
+  color: #ffe5ec;
+}
+body.dark-mode .theme-toggle-btn:hover {
+  background: linear-gradient(90deg, #232946, #a9def9, #e4c1f9);
+  color: #fff;
+}
+
+/* 별 내림 애니메이션 (다크모드) */
+.star {
+  position: absolute;
+  font-size: 1.3rem;
+  opacity: 0.92;
+  user-select: none;
+  animation: star-fall linear forwards;
+  color: #fffbe7;
+  text-shadow:
+    0 0 8px #fffbe7,
+    0 0 12px #a9def9,
+    0 0 16px #fffbe7;
+}
+@keyframes star-fall {
+  to {
+    transform: translateY(100vh);
+    opacity: 0.2;
+  }
+}
+
+.snowflake, .star {
+  position: absolute;
+  font-size: 1.5rem;
+  opacity: 0.92;
+  user-select: none;
+  animation: fall linear forwards;
+  color: #fff;
+  text-shadow:
+    0 0 8px #fff,
+    0 0 12px #e4c1f9,
+    0 0 16px #fff;
+  transition: opacity 1.2s;
+}
+@keyframes fall {
+  to {
+    transform: translateY(100vh);
+  }
+}
+.snowflake.fade-out, .star.fade-out {
+  opacity: 0;
+  transition: opacity 1.2s;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  background: rgba(255,255,255,0.13);
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 0 10px;
+  margin-bottom: 12px;
+  border: 1.5px solid #e4c1f9;
+  transition: border 0.3s, box-shadow 0.3s;
+}
+.input-group:focus-within {
+  border: 1.5px solid #a9def9;
+  box-shadow: 0 4px 16px rgba(169,222,249,0.13);
+}
+.input-group svg {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  margin-right: 8px;
+  color: #a9def9;
+  opacity: 0.85;
+}
+.input-group input,
+.input-group textarea {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 1.08rem;
+  padding: 12px 0;
+  width: 100%;
+  color: #fff;
+  font-family: inherit;
+}
+.input-group textarea {
+  resize: none;
+  min-height: 44px;
+}
+.input-group input::placeholder,
+.input-group textarea::placeholder {
+  color: #c7c7d9;
+  opacity: 1;
+  font-size: 1.02rem;
+  letter-spacing: 0.5px;
+}
+body.dark-mode .input-group {
+  background: rgba(30,34,50,0.7);
+  border: 1.5px solid #a9def9;
+}
+body.dark-mode .input-group:focus-within {
+  border: 1.5px solid #e4c1f9;
+  box-shadow: 0 4px 16px rgba(228,193,249,0.13);
+}
+body.dark-mode .input-group input,
+body.dark-mode .input-group textarea {
+  color: #f3f6fa;
+}
+body.dark-mode .input-group input::placeholder,
+body.dark-mode .input-group textarea::placeholder {
+  color: #a9b6c9;
+} 
