@@ -11,21 +11,21 @@
   <div id="snow-container"></div>
   <button id="theme-toggle-btn" class="theme-toggle-btn" title="다크모드 전환">🌙</button>
 
-  <!-- 로그인 폼 -->
+  <!-- 로그인 폼 (모바일 UI) -->
   <div class="container" id="login-container">
     <header>
       <h1><span class="dream-title">[Dream Diary]</span></h1>
     </header>
     <form id="login-form" autocomplete="off">
-      <div class="input-group">
-        <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" fill="#a9def9"/><ellipse cx="12" cy="17" rx="7" ry="5" fill="#e4c1f9"/></svg>
-        <input type="text" id="login-name" placeholder="당신의 이름을 입력하세요." required>
+      <div class="input-group mobile-input-group">
+        <svg viewBox="0 0 24 24" fill="none" width="28" height="28"><circle cx="12" cy="8" r="4" fill="#a9def9"/><ellipse cx="12" cy="17" rx="7" ry="5" fill="#e4c1f9"/></svg>
+        <input type="text" id="login-name" placeholder="이름(아이디)" required autocomplete="username" inputmode="text" maxlength="20">
       </div>
-      <div class="input-group">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M17 11V7a5 5 0 0 0-10 0v4" stroke="#a9def9" stroke-width="2"/><rect x="6" y="11" width="12" height="8" rx="2" fill="#e4c1f9"/><circle cx="12" cy="15" r="1.5" fill="#a9def9"/></svg>
-        <input type="password" id="login-pw" placeholder="토큰" required>
+      <div class="input-group mobile-input-group">
+        <svg viewBox="0 0 24 24" fill="none" width="28" height="28"><path d="M17 11V7a5 5 0 0 0-10 0v4" stroke="#a9def9" stroke-width="2"/><rect x="6" y="11" width="12" height="8" rx="2" fill="#e4c1f9"/><circle cx="12" cy="15" r="1.5" fill="#a9def9"/></svg>
+        <input type="password" id="login-pw" placeholder="비밀번호(토큰)" required autocomplete="current-password" maxlength="32">
       </div>
-      <button type="submit" id="login-btn">입장</button>
+      <button type="submit" id="login-btn" class="mobile-login-btn">로그인</button>
       <div id="login-error" class="login-error"></div>
     </form>
   </div>

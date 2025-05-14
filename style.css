@@ -523,4 +523,34 @@ body.dark-mode .input-group textarea {
 body.dark-mode .input-group input::placeholder,
 body.dark-mode .input-group textarea::placeholder {
   color: #a9b6c9;
+}
+
+/* 모바일 로그인 UI 개선 */
+@media (max-width: 600px) {
+  #login-container {
+    max-width: 98vw;
+    margin: 32px auto 16px auto;
+    padding: 18px 6vw 18px 6vw;
+    border-radius: 16px;
+  }
+  .mobile-input-group {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .mobile-input-group svg {
+    min-width: 28px;
+    min-height: 28px;
+  }
+  #login-form input {
+    font-size: 1.08rem;
+    padding: 12px 10px;
+  }
+  .mobile-login-btn {
+    font-size: 1.12rem;
+    padding: 13px 0;
+    border-radius: 10px;
+    margin-top: 8px;
+  }
 } 
