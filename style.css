@@ -553,4 +553,176 @@ body.dark-mode .input-group textarea::placeholder {
     border-radius: 10px;
     margin-top: 8px;
   }
+}
+
+/* 댓글 모달/영역 스타일 */
+.comment-modal {
+  position: fixed;
+  left: 0; top: 0; width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.32);
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.comment-modal-content {
+  background: #fff;
+  border-radius: 18px;
+  max-width: 420px;
+  width: 92vw;
+  padding: 24px 16px 16px 16px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  position: relative;
+}
+body.dark-mode .comment-modal-content {
+  background: #23232b;
+  color: #f3f6fa;
+}
+.close-modal-btn {
+  position: absolute;
+  right: 12px; top: 12px;
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  color: #a9def9;
+  cursor: pointer;
+}
+#comment-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px 0;
+  max-height: 220px;
+  overflow-y: auto;
+}
+.comment-item {
+  background: rgba(255,255,255,0.7);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  padding: 8px 10px 6px 10px;
+  font-size: 1.01rem;
+  position: relative;
+}
+body.dark-mode .comment-item {
+  background: rgba(40,44,70,0.7);
+}
+.comment-meta {
+  font-size: 0.92rem;
+  color: #a9def9;
+  margin-bottom: 2px;
+}
+.comment-actions {
+  position: absolute;
+  right: 8px; top: 8px;
+  display: flex;
+  gap: 6px;
+}
+.comment-actions button {
+  background: none;
+  border: none;
+  color: #f694c1;
+  font-size: 0.98rem;
+  cursor: pointer;
+  padding: 0 4px;
+}
+#comment-form {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+#comment-input {
+  flex: 1;
+  border-radius: 8px;
+  border: 1.5px solid #e4c1f9;
+  padding: 8px 10px;
+  font-size: 1rem;
+  background: rgba(255,255,255,0.7);
+  resize: none;
+  outline: none;
+  transition: border 0.3s;
+}
+body.dark-mode #comment-input {
+  background: rgba(40,44,70,0.7);
+  border: 1.5px solid #a9def9;
+  color: #f3f6fa;
+}
+#comment-input:focus {
+  border: 1.5px solid #f694c1;
+}
+#comment-submit-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.01rem;
+  font-weight: 600;
+  background: linear-gradient(90deg, #e4c1f9, #f694c1, #ffe5ec);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.5s;
+}
+body.dark-mode #comment-submit-btn {
+  background: linear-gradient(90deg, #232946, #a9def9, #e4c1f9);
+  color: #fff;
+}
+#comment-submit-btn:hover {
+  background: linear-gradient(270deg, #ffd6e0, #f9f7d9, #d0f4de, #a9def9, #e4c1f9, #f694c1, #ffe5ec);
+  color: #fff;
+}
+body.dark-mode #comment-submit-btn:hover {
+  background: linear-gradient(270deg, #232946, #a9def9, #e4c1f9);
+}
+@media (max-width: 600px) {
+  .comment-modal-content {
+    max-width: 98vw;
+    padding: 14px 4vw 12px 4vw;
+  }
+  #comment-list {
+    max-height: 160px;
+  }
+}
+
+/* 회원가입 모달/폼 스타일 */
+.register-modal {
+  position: fixed;
+  left: 0; top: 0; width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.32);
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.register-modal-content {
+  background: #fff;
+  border-radius: 18px;
+  max-width: 420px;
+  width: 92vw;
+  padding: 24px 16px 16px 16px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  position: relative;
+}
+body.dark-mode .register-modal-content {
+  background: #23232b;
+  color: #f3f6fa;
+}
+.register-link {
+  background: none;
+  border: none;
+  color: #a9def9;
+  font-size: 1.01rem;
+  margin-top: 8px;
+  text-decoration: underline;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+}
+.register-success {
+  color: #4caf50;
+  font-size: 0.98rem;
+  margin-top: 4px;
+  min-height: 1.2em;
+}
+@media (max-width: 600px) {
+  .register-modal-content {
+    max-width: 98vw;
+    padding: 14px 4vw 12px 4vw;
+  }
 } 

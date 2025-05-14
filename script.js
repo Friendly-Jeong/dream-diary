@@ -171,8 +171,15 @@ async function renderPosts(category = null) {
     li.innerHTML = `
       <span class="post-category">${post.category || ''}</span>
       <span class="post-content">${escapeHTML(post.content)}</span>
+      <button class="comment-btn" data-id="${post.id}">💬 댓글</button>
     `;
     postList.appendChild(li);
+  });
+  // 댓글 버튼 이벤트
+  postList.querySelectorAll('.comment-btn').forEach(btn => {
+    btn.onclick = function() {
+      openCommentModal(this.getAttribute('data-id'));
+    };
   });
   if (posts.length === 0) {
     postList.innerHTML = '<li style="text-align:center; color:#aaa;">아직 작성된 꿈 일기가 없습니다.</li>';
@@ -293,4 +300,224 @@ function loadTheme() {
 }
 
 // 페이지 로드 시 테마 적용
-loadTheme(); 
+loadTheme();
+
+// 댓글 모달 관련 DOM
+const commentModal = document.getElementById('comment-modal');
+const closeCommentModalBtn = document.getElementById('close-comment-modal');
+const commentList = document.getElementById('comment-list');
+const commentForm = document.getElementById('comment-form');
+const commentInput = document.getElementById('comment-input');
+let currentPostId = null;
+
+// 댓글 모달 열기/닫기
+function openCommentModal(postId) {
+  currentPostId = postId;
+  commentModal.style.display = 'flex';
+  renderComments(postId);
+}
+function closeCommentModal() {
+  commentModal.style.display = 'none';
+  commentList.innerHTML = '';
+  commentInput.value = '';
+  currentPostId = null;
+}
+if (closeCommentModalBtn) closeCommentModalBtn.onclick = closeCommentModal;
+if (commentModal) commentModal.onclick = function(e) {
+  if (e.target === commentModal) closeCommentModal();
+};
+
+// 댓글 목록 불러오기/렌더링
+async function loadComments(postId) {
+  const res = await fetch(`/api/comments/${postId}`);
+  if (!res.ok) return [];
+  return await res.json();
+}
+async function renderComments(postId) {
+  const comments = await loadComments(postId);
+  commentList.innerHTML = '';
+  const myName = localStorage.getItem(NAME_KEY);
+  comments.forEach(c => {
+    const li = document.createElement('li');
+    li.className = 'comment-item';
+    li.innerHTML = `
+      <div class="comment-meta">${c.author} · ${formatDate(c.createdAt)}${c.updatedAt && c.updatedAt !== c.createdAt ? ' (수정됨)' : ''}</div>
+      <div class="comment-content">${escapeHTML(c.content)}</div>
+      <div class="comment-actions"></div>
+    `;
+    // 본인 댓글이면 수정/삭제 버튼
+    if (c.author === myName) {
+      const actions = li.querySelector('.comment-actions');
+      const editBtn = document.createElement('button');
+      editBtn.textContent = '수정';
+      editBtn.onclick = () => startEditComment(c, li);
+      const delBtn = document.createElement('button');
+      delBtn.textContent = '삭제';
+      delBtn.onclick = () => deleteComment(c.id);
+      actions.appendChild(editBtn);
+      actions.appendChild(delBtn);
+    }
+    commentList.appendChild(li);
+  });
+  if (comments.length === 0) {
+    commentList.innerHTML = '<li style="text-align:center; color:#aaa;">아직 댓글이 없습니다.</li>';
+  }
+}
+// 날짜 포맷
+function formatDate(str) {
+  if (!str) return '';
+  const d = new Date(str);
+  return d.toLocaleString('ko-KR', { year:'2-digit', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit' });
+}
+// 댓글 작성
+if (commentForm) {
+  commentForm.onsubmit = async function(e) {
+    e.preventDefault();
+    const content = commentInput.value.trim();
+    if (!content || !currentPostId) return;
+    try {
+      const res = await fetch(`/api/comments/${currentPostId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + getToken()
+        },
+        body: JSON.stringify({ content })
+      });
+      if (!res.ok) {
+        alert('댓글 작성 실패');
+        return;
+      }
+      commentInput.value = '';
+      await renderComments(currentPostId);
+    } catch (err) {
+      alert('서버 오류');
+    }
+  };
+}
+// 댓글 삭제
+async function deleteComment(commentId) {
+  if (!currentPostId) return;
+  if (!confirm('정말 삭제하시겠습니까?')) return;
+  try {
+    const res = await fetch(`/api/comments/${commentId}`, {
+      method: 'DELETE',
+      headers: { 'Authorization': 'Bearer ' + getToken() }
+    });
+    if (!res.ok) {
+      alert('삭제 실패');
+      return;
+    }
+    await renderComments(currentPostId);
+  } catch (err) {
+    alert('서버 오류');
+  }
+}
+// 댓글 수정
+function startEditComment(comment, li) {
+  const contentDiv = li.querySelector('.comment-content');
+  const actionsDiv = li.querySelector('.comment-actions');
+  const input = document.createElement('textarea');
+  input.value = comment.content;
+  input.rows = 2;
+  input.style.width = '98%';
+  contentDiv.replaceWith(input);
+  actionsDiv.innerHTML = '';
+  const saveBtn = document.createElement('button');
+  saveBtn.textContent = '저장';
+  saveBtn.onclick = async () => {
+    const newContent = input.value.trim();
+    if (!newContent) return;
+    try {
+      const res = await fetch(`/api/comments/${comment.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + getToken()
+        },
+        body: JSON.stringify({ content: newContent })
+      });
+      if (!res.ok) {
+        alert('수정 실패');
+        return;
+      }
+      await renderComments(currentPostId);
+    } catch (err) {
+      alert('서버 오류');
+    }
+  };
+  const cancelBtn = document.createElement('button');
+  cancelBtn.textContent = '취소';
+  cancelBtn.onclick = () => renderComments(currentPostId);
+  actionsDiv.appendChild(saveBtn);
+  actionsDiv.appendChild(cancelBtn);
+}
+
+// 회원가입 모달 관련 DOM
+const openRegisterBtn = document.getElementById('open-register-btn');
+const registerModal = document.getElementById('register-modal');
+const closeRegisterModalBtn = document.getElementById('close-register-modal');
+const registerForm = document.getElementById('register-form');
+const registerName = document.getElementById('register-name');
+const registerPw = document.getElementById('register-pw');
+const registerNickname = document.getElementById('register-nickname');
+const registerError = document.getElementById('register-error');
+const registerSuccess = document.getElementById('register-success');
+
+if (openRegisterBtn) openRegisterBtn.onclick = function() {
+  registerModal.style.display = 'flex';
+  registerError.textContent = '';
+  registerSuccess.textContent = '';
+  registerForm.reset();
+};
+if (closeRegisterModalBtn) closeRegisterModalBtn.onclick = function() {
+  registerModal.style.display = 'none';
+};
+if (registerModal) registerModal.onclick = function(e) {
+  if (e.target === registerModal) registerModal.style.display = 'none';
+};
+
+if (registerForm) {
+  registerForm.onsubmit = async function(e) {
+    e.preventDefault();
+    const username = registerName.value.trim();
+    const password = registerPw.value;
+    const nickname = registerNickname.value.trim();
+    registerError.textContent = '';
+    registerSuccess.textContent = '';
+    if (!username || !password) {
+      registerError.textContent = '이름(아이디)와 비밀번호(토큰)를 입력하세요.';
+      return;
+    }
+    if (username.length < 3 || username.length > 20) {
+      registerError.textContent = '아이디는 3~20자여야 합니다.';
+      return;
+    }
+    if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+      registerError.textContent = '아이디는 영문, 숫자, 언더스코어만 허용';
+      return;
+    }
+    if (password.length < 4 || password.length > 32) {
+      registerError.textContent = '비밀번호는 4~32자여야 합니다.';
+      return;
+    }
+    try {
+      const res = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password, nickname })
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        registerError.textContent = data.message || '회원가입 실패';
+        return;
+      }
+      registerSuccess.textContent = '회원가입 성공! 이제 로그인하세요.';
+      setTimeout(() => {
+        registerModal.style.display = 'none';
+      }, 1200);
+    } catch (err) {
+      registerError.textContent = '서버 오류';
+    }
+  };
+} 
